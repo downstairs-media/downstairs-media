@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Downstairs — An archive of what's worth paying attention to</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Barlow:ital,wght@0,400;1,400&family=Space+Mono@0,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red: #C41A1A;
+  --black: #111;
+  --white: #FFFFFF;
+  --light: #E8E8E8;
+  --mid: #999;
+}
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+header {
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--red);
+  position: relative;
+  min-height: 280px;
+  background: var(--white);
+}
+.header-icons { display: flex; align-items: center; gap: 1.5rem; z-index: 1; align-self: center; }
+.header-icon { color: var(--black); text-decoration: none; transition: color 0.15s; display: flex; align-items: center; }
+.header-icon:hover { color: var(--red); }
+.header-icon svg { width: 24px; height: 24px; fill: currentColor; }
+.header-center { position: absolute; left: 50%; transform: translateX(-50%); }
+.header-logo { height: 260px; width: auto; display: block; }
+.header-right { z-index: 1; align-self: center; }
+.header-link.substack {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--black);
+  text-decoration: none;
+  border: 1px solid var(--black);
+  padding: 7px 16px;
+  transition: all 0.15s;
+}
+.header-link.substack:hover { background: var(--black); color: var(--white); }
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: var(--red);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Border staircase canvas */
+#stair-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Main content sits above canvas */
+.main-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tagline { font-family: 'Barlow', sans-serif; font-style: italic; font-size: 1.15rem; color: rgba(255,255,255,0.8); margin-bottom: 2.5rem; }
+.divider { width: 40px; height: 2px; background: rgba(255,255,255,0.5); margin: 0 auto 2.5rem; }
+
+/* Dual widget layout */
+.spotify-row {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+.spotify-col {
+  flex: 1;
+  min-width: 0;
+}
+.spotify-label { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1rem; }
+.spotify-dot { width: 7px; height: 7px; border-radius: 50%; background: white; animation: pulse 1.8s ease-in-out infinite; }
+.spotify-dot.delay { animation-delay: 0.9s; }
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+.spotify-title { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.08em; color: rgba(255,255,255,0.75); }
+.spotify-embed iframe { display: block; width: 100%; border: none; }
+
+footer {
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  background: var(--red);
+}
+.foot-tag { font-family: 'Barlow', sans-serif; font-style: italic; font-size: 12px; color: rgba(255,255,255,0.6); }
+.foot-url { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+@media (max-width: 700px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 1.5rem 1rem;
+    min-height: unset;
+    position: relative;
+  }
+  .header-center { position: static; transform: none; order: -1; }
+  .header-logo { height: 140px; }
+  .header-icons { position: absolute; left: 1rem; bottom: 1.25rem; }
+  .header-right { position: absolute; right: 1rem; bottom: 1.25rem; }
+  .header-link.substack { font-size: 8px; padding: 5px 10px; }
+  main { padding: 1.5rem 1rem 2rem; }
+  .tagline { font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .divider { margin-bottom: 1.5rem; }
+  .spotify-row { flex-direction: column; gap: 1.5rem; }
+  .spotify-embed iframe { height: 352px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-icons">
+    <a href="mailto:reedaheath@gmail.com" class="header-icon" title="Email">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
+    <a href="https://instagram.com/downstairsradio" target="_blank" class="header-icon" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+  </div>
+  <div class="header-center">
+    <img src="Downstairs_Radio_Logo__1_.png" alt="Downstairs" class="header-logo">
+  </div>
+  <div class="header-right">
+    <a href="https://substack.com/@downstairsmedia" target="_blank" class="header-link substack">Substack</a>
+  </div>
+</header>
+
+<main>
+  <canvas id="stair-canvas"></canvas>
+
+  <div class="main-content">
+    <p class="tagline">An archive of what's worth paying attention to</p>
+    <div class="divider"></div>
+    <div class="spotify-row">
+      <!-- Podcast widget (left) -->
+      <div class="spotify-col">
+        <div class="spotify-label">
+          <div class="spotify-dot delay"></div>
+          <span class="spotify-title">Downstairs Podcast</span>
+        </div>
+        <div class="spotify-embed">
+          <iframe src="https://open.spotify.com/embed/show/4eLuAkavuzKgLJMdArAbuq?utm_source=generator&theme=0" width="100%" height="500" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+      </div>
+      <!-- Playlist widget (right) -->
+      <div class="spotify-col">
+        <div class="spotify-label">
+          <div class="spotify-dot"></div>
+          <span class="spotify-title">Official Downstairs Radio</span>
+        </div>
+        <div class="spotify-embed">
+          <iframe src="https://open.spotify.com/embed/playlist/5khCyWMwYRvQeUKL4maLE5?utm_source=generator&theme=0" width="100%" height="500" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <span class="foot-tag">An archive of what's worth paying attention to</span>
+  <span class="foot-url">letsgodownstairs.com</span>
+</footer>
+
+<script>
+// ── Animated staircase logos along the border of <main> ──
+(function() {
+  const canvas = document.getElementById('stair-canvas');
+  const ctx = canvas.getContext('2d');
+
+  let stairs = [];
+  let perimeter = 0;
+  let W = 0, H = 0;
+  let COUNT, ICON_SIZE, BORDER, SPEED;
+
+  function setParams() {
+    const mobile = window.innerWidth <= 700;
+    COUNT     = mobile ? 14 : 30;
+    ICON_SIZE = mobile ? 18 : 28;
+    BORDER    = mobile ? 12 : 18;
+    SPEED     = mobile ? 0.5 : 0.6;
+  }
+
+  function drawStair(cx, cy, angle, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(cx, cy);
+    ctx.rotate(angle);
+    const s = ICON_SIZE;
+    const half = s / 2;
+    ctx.beginPath();
+    const steps = 4;
+    const sw = s / steps;
+    const sh = s / steps;
+    ctx.moveTo(-half, -half);
+    for (let i = 0; i < steps; i++) {
+      ctx.lineTo(-half + i * sw, -half + i * sh);
+      ctx.lineTo(-half + (i + 1) * sw, -half + i * sh);
+    }
+    ctx.lineTo(half, half);
+    ctx.lineTo(-half, half);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,255,255,0.18)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function getPerimeter() {
+    return H + W + H;
+  }
+
+  function posOnPath(dist) {
+    const leftLen = H;
+    const topLen  = W;
+
+    if (dist < leftLen) {
+      const t = dist / leftLen;
+      return { x: BORDER, y: H - t * H, angle: -Math.PI / 2 };
+    } else if (dist < leftLen + topLen) {
+      const t = (dist - leftLen) / topLen;
+      return { x: t * W, y: BORDER, angle: 0 };
+    } else {
+      const t = (dist - leftLen - topLen) / H;
+      return { x: W - BORDER, y: t * H, angle: Math.PI / 2 };
+    }
+  }
+
+  function resize() {
+    setParams();
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W;
+    canvas.height = H;
+    perimeter = getPerimeter();
+    // Rebuild stairs spread evenly
+    stairs = [];
+    for (let i = 0; i < COUNT; i++) {
+      stairs.push({ dist: (i / COUNT) * perimeter });
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    for (let s of stairs) {
+      s.dist = (s.dist + SPEED) % perimeter;
+      const pos = posOnPath(s.dist);
+      const fadeZone = 50;
+      let alpha = 0.82;
+      if (s.dist < fadeZone) alpha = (s.dist / fadeZone) * 0.82;
+      if (s.dist > perimeter - fadeZone) alpha = ((perimeter - s.dist) / fadeZone) * 0.82;
+      drawStair(pos.x, pos.y, pos.angle, alpha);
+    }
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  animate();
+})();
+</script>
+
+</body>
+</html>
